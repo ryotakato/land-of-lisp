@@ -49,7 +49,19 @@
     )
   )
 
-
+(define (edges->dot edges)
+  (dolist (node edges)
+    (dolist (edge (cdr node))
+      (newline)
+      (display (dot-name (car node)))
+      (display "->")
+      (display (dot-name (car edge)))
+      (display "[label=\"")
+      (display (dot-label (cdr edge)))
+      (display "\"];")
+      )
+    )
+  )
 
 
 ;try
@@ -58,6 +70,7 @@
 ;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcde))
 ;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcdea))
 (nodes->dot *wizard-nodes*)
+(edges->dot *wizard-edges*)
 
 
 
