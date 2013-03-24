@@ -63,14 +63,21 @@
     )
   )
 
+(define (graph->dot nodes edges)
+  (display "digraph{")
+  (nodes->dot nodes)
+  (edges->dot edges)
+  (newline)
+  (display "}")
+  )
 
 ;try
 ;(print (dot-name 'ab2*c?a!De))
 ;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcd))
 ;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcde))
 ;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcdea))
-(nodes->dot *wizard-nodes*)
-(edges->dot *wizard-edges*)
-
+;(nodes->dot *wizard-nodes*)
+;(edges->dot *wizard-edges*)
+(graph->dot *wizard-nodes* *wizard-edges*)
 
 
