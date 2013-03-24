@@ -39,12 +39,25 @@
     )
   )
 
+(define (nodes->dot nodes)
+  (dolist (node nodes)
+    (newline)
+    (display (dot-name (car node)))
+    (display "[label=\"")
+    (display (dot-label node))
+    (display "\"];")
+    )
+  )
+
+
+
+
 ;try
 ;(print (dot-name 'ab2*c?a!De))
 ;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcd))
 ;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcde))
 ;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcdea))
-
+(nodes->dot *wizard-nodes*)
 
 
 
