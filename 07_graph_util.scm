@@ -1,5 +1,5 @@
- (use srfi-13)
-
+(use srfi-13)
+(use gauche.process)
 
 ;global variables
 (define *wizard-nodes* 
@@ -71,6 +71,17 @@
   (display "}")
   )
 
+
+(define (dot->png fname thunk)
+  (with-output-to-file fname thunk :if-exists :supersede)
+  (run-process `("dot" "-Tpng" "-O" ,fname))
+  )
+
+(define (graph->png fname nodes edges)
+  (dot->png fname 
+    (lambda () (graph->dot nodes edges)))
+  )
+
 ;try
 ;(print (dot-name 'ab2*c?a!De))
 ;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcd))
@@ -78,6 +89,6 @@
 ;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcdea))
 ;(nodes->dot *wizard-nodes*)
 ;(edges->dot *wizard-edges*)
-(graph->dot *wizard-nodes* *wizard-edges*)
-
+;(graph->dot *wizard-nodes* *wizard-edges*)
+(graph->png "wizard.dot" *wizard-nodes* *wizard-edges*)
 
