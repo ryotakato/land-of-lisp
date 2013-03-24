@@ -19,13 +19,32 @@
     (attic (living-room downstairs ladder)))
   )
 
+(define *max-label-length* 30)
 
 
 ;functions
 (define (dot-name exp)
-  (regexp-replace-all #/[^a-z0-9]/ (write-to-string exp) "_")
+  (regexp-replace-all #/[^a-zA-Z0-9]/ (write-to-string exp) "_")
   )
 
+(define (dot-label exp)
+  (if exp
+    (let ((s (write-to-string exp)))
+      (if (> (string-length s) *max-label-length*)
+        (string-append (substring s 0 (- *max-label-length* 3)) "...")
+        s
+        )
+      )
+    ""
+    )
+  )
 
 ;try
-(display (dot-name 'ab2*c?a!de))
+;(print (dot-name 'ab2*c?a!De))
+;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcd))
+;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcde))
+;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcdea))
+
+
+
+
