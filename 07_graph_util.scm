@@ -1,4 +1,4 @@
-(use srfi-13)
+(use srfi-1)
 (use gauche.process)
 
 ;global variables
@@ -63,6 +63,24 @@
     )
   )
 
+(define (uedges->dot edges)
+  (pair-for-each 
+    (lambda (lst)
+      (dolist (edge (cdar lst))
+        (unless (assv (car edge) (cdr lst))
+          (newline)
+          (display (dot-name (caar lst)))
+          (display "--")
+          (display (dot-name (car edge)))
+          (display "[label=\"")
+          (display (dot-label (cdr edge)))
+          (display "\"];")
+          )
+        )
+      )
+    edges)
+  )
+
 (define (graph->dot nodes edges)
   (display "digraph{")
   (nodes->dot nodes)
@@ -71,6 +89,13 @@
   (display "}")
   )
 
+(define (ugraph->dot nodes edges)
+  (display "graph{")
+  (nodes->dot nodes)
+  (uedges->dot edges)
+  (newline)
+  (display "}")
+  )
 
 (define (dot->png fname thunk)
   (with-output-to-file fname thunk :if-exists :supersede)
@@ -82,6 +107,11 @@
     (lambda () (graph->dot nodes edges)))
   )
 
+(define (ugraph->png fname nodes edges)
+  (dot->png fname 
+    (lambda () (ugraph->dot nodes edges)))
+  )
+
 ;try
 ;(print (dot-name 'ab2*c?a!De))
 ;(print (dot-label 'abcdeabcdeabcdeabcdeabcdeabcd))
@@ -90,5 +120,9 @@
 ;(nodes->dot *wizard-nodes*)
 ;(edges->dot *wizard-edges*)
 ;(graph->dot *wizard-nodes* *wizard-edges*)
-(graph->png "wizard.dot" *wizard-nodes* *wizard-edges*)
+;(graph->png "wizard.dot" *wizard-nodes* *wizard-edges*)
+;(uedges->dot *wizard-edges*)
+(ugraph->png "uwizard.dot" *wizard-nodes* *wizard-edges*)
+
+
 
